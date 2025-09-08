@@ -37,67 +37,67 @@ if (session_status() == PHP_SESSION_NONE) {
     <style>
         /* Custom font import */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
+
         body {
             font-family: 'Inter', sans-serif;
             /* Changed to allow vertical scrolling and hide horizontal overflow at the body level */
-            overflow-y: auto; 
+            overflow-y: auto;
             overflow-x: hidden;
         }
-        
+
         /* Custom animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         @keyframes slideInRight {
             from { transform: translateX(20px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        
+
         .animate-fadeIn {
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         .animate-slideInRight {
             animation: slideInRight 0.3s ease-out;
         }
-        
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
-        
+
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: #c5c5c5;
             border-radius: 10px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
-        
+
         /* Card hover effect */
         .card-hover {
             transition: all 0.3s ease;
         }
-        
+
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-  
+
     .financial-report-container {
         max-height: 80vh;
         overflow-y: auto;
     }
-    
+
     @media (min-width: 1024px) {
         .financial-report-container {
             max-height: 75vh;
@@ -107,20 +107,20 @@ if (session_status() == PHP_SESSION_NONE) {
         flex-shrink: 0 !important;
         width: 16rem !important; /* Same as w-64 */
     }
-    
+
     .main-content-flex {
         flex: 1;
         min-width: 0;
         display: flex;
         flex-direction: column;
     }
-    
+
     /* Prevent content from causing overflow */
     .content-container {
         max-width: 100%;
         overflow-x: hidden;
     }
-    
+
     /* Fix for the encoding issues in your sidebar */
     #sidebar a {
         display: flex;
@@ -134,64 +134,64 @@ if (session_status() == PHP_SESSION_NONE) {
         font-family: 'Inter', sans-serif; /* Ensure sidebar uses Inter font */
         font-size: 1rem; /* 16px - increased font size */
     }
-    
+
     #sidebar a:hover {
         background-color: rgb(29 78 216);
         font-weight: 600; /* Slightly bolder on hover */
         font-size: 1rem; /* Maintain consistent font size on hover */
     }
-    
+
     /* Ensure sidebar container uses Inter font */
     #sidebar {
         font-family: 'Inter', sans-serif;
     }
-    
+
     /* Mobile sidebar improvements */
     @media (max-width: 1023px) {
         #sidebar {
             width: 16rem; /* 256px */
             max-width: 100vw;
         }
-        
+
         .sidebar-fixed {
             transform: translateX(-100%);
         }
-        
+
         .sidebar-fixed.open,
         .sidebar-fixed.translate-x-0 {
             transform: translateX(0);
         }
     }
-    
+
     /* Ensure sidebar is properly positioned on all screen sizes */
     #sidebar {
         will-change: transform;
     }
-    
+
     /* Fix for mobile sidebar overlay */
     @media (max-width: 1023px) {
         .sidebar-fixed {
             z-index: 50;
         }
     }
-    
+
     /* Ensure sidebar is visible when open on mobile */
     .sidebar-fixed:not(.-translate-x-full) {
         transform: translateX(0);
     }
-    
+
     /* Ensure sidebar toggle works on all devices */
     #sidebarToggleBtn {
         touch-action: manipulation;
     }
-    
+
     /* Fix for mobile sidebar positioning - ensure proper stacking context */
     @media (max-width: 1023px) {
         body {
             overflow-x: hidden;
             position: relative;
         }
-        
+
         #sidebar {
             position: fixed !important;
             top: 0 !important;
@@ -201,12 +201,12 @@ if (session_status() == PHP_SESSION_NONE) {
             transform: translateX(-100%) !important;
             transition: transform 0.3s ease-in-out !important;
         }
-        
+
         #sidebar.translate-x-0,
         #sidebar:not(.-translate-x-full) {
             transform: translateX(0) !important;
         }
-        
+
         /* Ensure main content doesn't interfere with sidebar on mobile */
         .main-content-flex {
             width: 100% !important;
@@ -223,23 +223,45 @@ if (session_status() == PHP_SESSION_NONE) {
     // Mobile sidebar toggle functionality
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
-        const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
-        
-        // Toggle sidebar on hamburger menu click (mobile)
-        if (sidebarToggleBtn && sidebar) {
-            sidebarToggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
+        const sidebarOpenBtn = document.getElementById('sidebarOpenBtn');
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+
+        // Function to open sidebar
+        const openSidebar = () => {
+            if (sidebar) {
+                sidebar.classList.remove('-translate-x-full');
+            }
+        };
+
+        // Function to close sidebar
+        const closeSidebar = () => {
+            if (sidebar) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        };
+
+        // Event listener for open button
+        if (sidebarOpenBtn) {
+            sidebarOpenBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openSidebar();
             });
         }
 
-        // Hide sidebar when clicking outside on mobile (optional, but good UX)
+        // Event listener for close button
+        if (sidebarCloseBtn) {
+            sidebarCloseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeSidebar();
+            });
+        }
+
+        // Hide sidebar when clicking outside on mobile
         document.addEventListener('click', (event) => {
-            if (window.innerWidth < 1024 && sidebar && 
-                !sidebar.contains(event.target) && 
-                sidebarToggleBtn && 
-                !sidebarToggleBtn.contains(event.target) && 
-                !sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.add('-translate-x-full');
+            if (window.innerWidth < 1024 && sidebar && !sidebar.contains(event.target) && sidebarOpenBtn && !sidebarOpenBtn.contains(event.target)) {
+                if (!sidebar.classList.contains('-translate-x-full')) {
+                    closeSidebar();
+                }
             }
         });
     });

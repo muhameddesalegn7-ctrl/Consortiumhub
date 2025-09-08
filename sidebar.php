@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between h-20 bg-primary-900 rounded-br-xl shadow-md flex-shrink-0 px-4">
         <h1 class="text-2xl font-bold tracking-wide">Consortium Hub</h1>
         <!-- Mobile sidebar toggle button -->
-        <button id="sidebarToggleBtn" class="lg:hidden text-white focus:outline-none">
+        <button id="sidebarCloseBtn" class="lg:hidden text-white focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>

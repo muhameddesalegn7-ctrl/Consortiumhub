@@ -225,7 +225,7 @@ $currentDate = date('Y-m-d');
         <header class="flex items-center justify-between h-20 px-8 bg-white border-b border-gray-200 shadow-sm rounded-bl-xl">
             <div class="flex items-center">
                 <!-- Hamburger menu for small screens -->
-                <button id="sidebarToggleBtn"
+                <button id="sidebarOpenBtn"
                     class="text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md p-2 lg:hidden">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
